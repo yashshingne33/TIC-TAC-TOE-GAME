@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="home-container">
+        <h1 class="game-title">Welcome to Tic-Tac-Toe Game!</h1>
+        <p class="game-description">Choose your settings and start playing!</p>
+
+        <div class="settings">
+            <h2>Select Game Mode:</h2>
+            <button id="toggle-game-mode">Switch to Friend Mode</button>
+
+            <h2>Select Grid Size:</h2>
+            <button id="toggle-mode">Switch to 4x4</button>
+
+            <h2>Select Difficulty:</h2>
+            <select id="difficulty-select">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard" selected>Hard</option>
+            </select>
+
+            <h2>Theme Mode:</h2>
+            <button id="theme-toggle">🌙 Dark Mode</button>
+        </div>
+
+        <button id="start-game">Start Game</button>
+    </div>
+
+    <script>
+        document.getElementById("start-game").addEventListener("click", () => {
+            window.location.href = "game.html";
+        });
+
+        document.getElementById("theme-toggle").addEventListener("click", () => {
+            document.body.classList.toggle("light-mode");
+            const theme = document.body.classList.contains("light-mode") ? "light" : "dark";
+            localStorage.setItem("theme", theme);
+        });
+
+        document.getElementById("toggle-game-mode").addEventListener("click", () => {
+            const isFriendMode = localStorage.getItem("gameMode") === "Friend";
+            localStorage.setItem("gameMode", isFriendMode ? "AI" : "Friend");
+            document.getElementById("toggle-game-mode").innerText = isFriendMode ? "Switch to Friend Mode" : "Switch to AI Mode";
+        });
+
+        document.getElementById("toggle-mode").addEventListener("click", () => {
+            const gameMode = localStorage.getItem("gridSize") === "3x3" ? "4x4" : "3x3";
+            localStorage.setItem("gridSize", gameMode);
+            document.getElementById("toggle-mode").innerText = gameMode === "3x3" ? "Switch to 4x4" : "Switch to 3x3";
+        });
+
+        document.getElementById("difficulty-select").addEventListener("change", (e) => {
+            localStorage.setItem("difficulty", e.target.value);
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const theme = localStorage.getItem("theme");
+            if (theme === "light") {
+                document.body.classList.add("light-mode");
+            }
+        });
+    </script>
+</body>
+</html>

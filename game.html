@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scoreboard">
+        <p>🟢 Player (O): <span id="player-score">0</span></p>
+        <p>🔴 AI (X): <span id="ai-score">0</span></p>
+        <p>⚪ Draws: <span id="draw-score">0</span></p>
+    </div>
+
+    <div class="container">
+        <div class="game" id="game-board"></div>    
+    </div>
+
+    <button id="reset-btn">Reset Game</button>
+    <button id="toggle-mode">Switch to 4x4</button>
+    <button id="back-home">Back to Home</button>
+
+    <div id="msg-container" class="msg-container">
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const gameBoard = document.getElementById("game-board");
+            const resetBtn = document.getElementById("reset-btn");
+            const toggleModeBtn = document.getElementById("toggle-mode");
+            const backHomeBtn = document.getElementById("back-home");
+            const msgContainer = document.getElementById("msg-container");
+            const msg = document.getElementById("msg");
+
+            let turnO = true;
+            let boxes = [];
+            let gameMode = "3x3";
+            let gameActive = true;
+
+            function createBoard() {
+                gameBoard.innerHTML = "";
+                let size = gameMode === "3x3" ? 3 : 4;
+                gameBoard.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+                gameBoard.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
+                for (let i = 0; i < size * size; i++) {
+                    let box = document.createElement("button");
+                    box.classList.add("box");
+                    box.addEventListener("click", handleBoxClick);
+                    gameBoard.appendChild(box);
+                }
+
+                boxes = document.querySelectorAll(".box");
+                resetGame();
+            }
+
+            function handleBoxClick(event) {
+                if (!gameActive) return;
+
+                let box = event.target;
+                if (box.innerText !== "" || msgContainer.classList.contains("show")) return;
+
+                box.innerText = turnO ? "O" : "X";
+                box.disabled = true;
+
+                if (checkWinner()) return;
+
+                turnO = !turnO;
+                setTimeout(computerMove, 500);
+            }
+
+            function computerMove() {
+                if (!gameActive) return;
+
+                let emptyBoxes = Array.from(boxes).filter(box => box.innerText === "");
+                if (emptyBoxes.length === 0) return;
+
+                let selectedBox = emptyBoxes[Math.floor(Math.random() * emptyBoxes.length)];
+                setTimeout(() => {
+                    selectedBox.innerText = "X";
+                    selectedBox.disabled = true;
+
+                    if (checkWinner()) return;
+
+                    turnO = true;
+                }, 300);
+            }
+
+            function checkWinner() {
+                const winPatterns = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+                    [0, 4, 8], [2, 4, 6]  
+                ];
+
+                for (let pattern of winPatterns) {
+                    let values = pattern.map(index => boxes[index].innerText);
+                    if (values.every(v => v === "X") || values.every(v => v === "O")) {
+                        showWinner(values[0]);
+                        gameActive = false;
+                        return true;
+                    }
+                }
+
+                if ([...boxes].every(box => box.innerText !== "")) {
+                    showDraw();
+                    return true;
+                }
+
+                return false;
+            }
+
+            const showWinner = (winner) => {
+                msg.innerHTML = `<span class="celebration">🎉 ${winner} Wins! 🎉</span>`;
+                msgContainer.classList.add("show");
+                document.body.classList.add("blur-bg");
+
+                setTimeout(() => {
+                    msgContainer.classList.remove("show");
+                    document.body.classList.remove("blur-bg");
+                    resetGame();
+                }, 3000);
+            };
+
+            const showDraw = () => {
+                msg.innerHTML = `<span class="celebration">😃 It's a Draw!</span>`;
+                msgContainer.classList.add("show");
+                document.body.classList.add("blur-bg");
+
+                setTimeout(() => {
+                    msgContainer.classList.remove("show");
+                    document.body.classList.remove("blur-bg");
+                    resetGame();
+                }, 3000);
+            };
+
+            function resetGame() {
+                turnO = true;
+                gameActive = true;
+                msgContainer.classList.remove("show");
+
+                boxes.forEach(box => {
+                    box.innerText = "";
+                    box.disabled = false;
+                });
+            }
+
+            toggleModeBtn.addEventListener("click", () => {
+                gameMode = gameMode === "3x3" ? "4x4" : "3x3";
+                toggleModeBtn.innerText = gameMode === "3x3" ? "Switch to 4x4" : "Switch to 3x3";
+                createBoard();
+            });
+
+            resetBtn.addEventListener("click", resetGame);
+            backHomeBtn.addEventListener("click", () => {
+                window.location.href = "index.html";
+            });
+
+            createBoard();
+        });
+    </script>
+</body>
+</html>

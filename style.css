@@ -1,0 +1,180 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Background Styling */
+body {
+    background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Scoreboard */
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    margin-bottom: 15px;
+}
+
+.scoreboard p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+
+/* Game Board */
+.game {
+    display: grid;
+    width: 50vmin;
+    height: 50vmin;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 20px auto;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Game Box */
+.box {
+    width: 100%;
+    height: 100%;
+    font-size: 5vmin;
+    font-weight: bold;
+    color: #34495e;
+    background: linear-gradient(135deg, #ffebcd, #f3d9a6);
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(255, 117, 140, 0.5);
+}
+
+/* Buttons */
+button, .settings button {
+    width: 200px;
+    padding: 12px;
+    margin: 10px auto;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #ff758c, #ff7eb3);
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 117, 140, 0.5);
+    transition: 0.3s;
+    white-space: nowrap; /* Prevents text from wrapping */
+    text-align: center; /* Ensures proper alignment */
+}
+
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(255, 117, 140, 0.8);
+}
+
+/* Homepage Styling */
+.home-container {
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.home-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+.home-container p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #87898c;
+}
+
+/* Winning Message Popup */
+.msg-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+    z-index: 1000;
+}
+
+.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Game Settings */
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.settings select {
+    width: 80%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+}
+
+/* Light Mode */
+.light-mode {
+    background: linear-gradient(135deg, #f8f9fa, #dee2e6);
+    color: black;
+}
+
+.light-mode .home-container {
+    background: rgba(224, 191, 220, 0.9);
+}
+
+.light-mode .settings button {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+}
+
+.light-mode .scoreboard {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.light-mode .box {
+    background: linear-gradient(135deg, #ffffff, #dddddd);
+    color: #2C3E50;
+}
